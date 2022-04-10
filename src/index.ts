@@ -29,15 +29,17 @@ exports.updateRatings = functions
 
             // compute new number of ratings
             const numRatings = (recipeDoc.data() as Recipe)?.numRatings || 0
-            const newNumRatings = numRatings + 1
+            const newNumRatings = change.before.data()
+                ? numRatings
+                : numRatings + 1
 
             const avgRatings = (recipeDoc.data() as Recipe)?.avgRating || 0
-
+            const beforeRatings = change.before.data()?.rating || 0
             // cupute new avrage rating
-            const oldRatingTotal = avgRatings * numRatings
+            const oldRatingTotal = avgRatings * numRatings - beforeRatings
             const newAvgRating = (oldRatingTotal + ratingVal) / newNumRatings
 
-            transaction.update(recipeRef, {
+            transaction.set(recipeRef, {
                 avgRating: newAvgRating,
                 numRatings: newNumRatings,
             })

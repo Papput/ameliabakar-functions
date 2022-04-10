@@ -31,5 +31,6 @@ module.exports = {
         'semi': ['error', 'never'],
         'object-curly-spacing': ['error', 'always'],
         'arrow-parens': ['error', 'as-needed'],
+        'operator-linebreak': ['error', 'before'],
     },
 }
